@@ -1,0 +1,208 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0px;
+}
+
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px; 
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: black; 
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: none; 
+    border-left: 1px solid black; 
+    
+}
+
+
+.content {
+    margin: 15px;
+    margin-top: 80px;
+    max-width: 800px;
+    text-align: left;
+}
+
+input {
+    width: 300px;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 0px;
+    background-color: #fff;
+}
+
+.loadingspinner {
+    height: 60px;
+}
+
+.hidden {
+    display: none;
+}
+
+.resultbox {
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-right: 1px #000 solid;
+    
+}
+
+.resultbox::-webkit-scrollbar {
+    display: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+.accent, th {
+    font-family: "Merriweather", serif;
+}
+
+li {
+    border: 1px solid #000;
+    list-style: none;
+    width: 100%;
+    padding: 5px;
+    
+}
+
+li:hover {
+    background-color: #efafe1;
+}
+
+ul {
+    padding: 0px;
+    margin: 0px;
+    
+}
+
+
+
+.green {
+    color: #38b60b;
+}
+
+.red {
+    color: #f10000;
+}
+
+.logo {
+    font-size: 25px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+.header {
+    background-color: #fff;
+    border-bottom: solid 1px #000;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    padding: 5px;
+    color: #000;
+    z-index: 10;
+    a {
+        color: #000 !important;
+    }
+}
+
+.secondheader {
+    background-color: #131313;
+    position: fixed;
+    top: 50px;
+    width: 100%;
+    padding: 5px;
+    color: #fff;
+    display: none;
+    animation-name: blend-in;
+    animation-duration: 500ms;
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 0px !important;
+}
+
+@keyframes blend-in {
+    from {top: 0px;}
+    to {top: 50px;}
+}
+
+.elementtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    
+
+    th, td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+        
+    }
+    th {
+        background-color: #000;
+        color: #fff;    
+    }
+
+    a:hover {
+        background-color: #efafe1;
+    }
+}
+
+.wide {
+    width: 100%;
+}
+
+.halfwide {
+    width: 49%;
+}
+
+.thumbnail {
+    width: 120px;
+    border-radius: 1000px;
+}
+
+.linelabel {
+    
+    color: #fff;
+    font-weight: 600;
+    min-width: 200px;
+    text-align: center;
+}
+
+.bigbox {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+}
+
+.bigtext {
+    font-size: 25px;
+}
+
+.noborder {
+    border: none !important;
+    
+    td {
+        border: none !important;
+    }
+}
+
+.rail {
+    height: 45px;
+    margin-top: 5px;
+}
+

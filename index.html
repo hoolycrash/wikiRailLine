@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wikiRailLine | Wikipedia along your Train Trip</title>
+    <meta name="description" content="Find Wikipedia Articles along your train journey." />
+    <meta name="keywords" content="wikirailline, wiki, train, zug, zugsuche, bahn, track, railway, tool, wiki rail, felix, felix nietzold, felix.nietzold" />
+    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon.ico">
+    <link rel="manifest" href="/manifest.json" type="application/json">
+    <meta name="theme-color" content="#000">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="wikiRailLine - Wikipedia Articles along your journey">
+    <meta property="og:description" content="Find Wikipedia Articles along your train journey.">
+    <meta property="og:image" content="https://wikirailline.de.cool/assets/images/bigbanner.png">
+    <meta property="og:url" content="https://wikirailline.de.cool/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="wikiRailLine - Wikipedia Articles along your journey">
+    <meta name="twitter:description" content="Find Wikipedia Articles along your train journey.">
+    <meta name="twitter:image" content="https://wikirailline.de.cool/assets/images/bigbanner.png">
+    <meta name="twitter:url" content="https://wikirailline.de.cool/">
+
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebSite",
+            "name": "wikiRailLine - Wikipedia Articles along your journey",
+            "url": "https://wikirailline.de.cool/",
+            "description": "Find Wikipedia Articles along your train journey..",
+
+        }
+    </script>
+</head>
+<body>
+
+<center>
+    <div class="content">
+        <h1 class="accent">wikiRailLine</h1>
+        Find Wikipedia Articles along your Rail Trip
+       <br><br>
+        <input type="date" id="dateInput"><br>
+        <input type="text" id="textInput" placeholder="Search for train id" autofocus autocomplete="off">
+  
+        <div class="resultbox">
+            <ul id="results"></ul>
+        </div>
+       
+    </div>
+<script>
+
+    
+    
+    // Get references to the inputs and result list
+    const textInput = document.getElementById('textInput');
+    const dateInput = document.getElementById('dateInput');
+    const results = document.getElementById('results');
+
+    // Set the date input to today's date by default
+    const today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+    dateInput.value = today;
+
+    // Function to fetch and display data
+    async function fetchTrainData() {
+        const userInput = textInput.value.trim();
+        const date = dateInput.value;
+
+        if (userInput && date) {
+            const url = `https://data.cuzimmartin.dev/search-train/${encodeURIComponent(userInput)}?day=${date}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+
+                // Clear previous results
+                results.innerHTML = '';
+
+                // Populate results
+                data.trips.forEach(trip => {
+                    const li = document.createElement('li');
+
+                    // Create a link for each trip
+                    const link = document.createElement('a');
+                    link.href = `train.html?tripId=${encodeURIComponent(trip.id)}&stationId=${trip.origin.id}`;
+                    link.textContent = `${trip.line.name} >>> ${trip.destination.name}`;
+
+                    li.appendChild(link);
+                    results.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error fetching train data:', error);
+            }
+        }
+    }
+
+    // Add event listeners to trigger fetch on input changes
+    textInput.addEventListener('input', fetchTrainData);
+    dateInput.addEventListener('input', fetchTrainData);
+</script>
+</body>
+</html>
