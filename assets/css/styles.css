@@ -153,7 +153,7 @@ a {
 @keyframes blend-out {
     0% {top: 50px; display: block;}
     99% {top: 0px; display: block;}
-    100% {display: none;}
+    100% {display: none; top: 0px;}
 }
 
 .elementtable {
