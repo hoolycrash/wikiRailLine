@@ -1,9 +1,11 @@
 ﻿window.addEventListener('scroll', function() {
     var secondHeader = document.querySelector('.secondheader');
     if (window.scrollY >= 200) {
+        secondHeader.classList.remove('blendout')
         secondHeader.style.display = 'block'; // Zeige das Div an
     } else {
-        secondHeader.style.display = 'none'; // Verstecke das Div
+        secondHeader.classList.add('blendout'); // Verstecke das Div
+        
     }
 });
 
@@ -24,9 +26,41 @@ var tripId = getQueryParam('tripId');
 
 var stationId = getQueryParam('stationId');
 
+var startStationId = getQueryParam('startStationId');
+
+console.log(startStationId);
+
+var showstation;
+
+if (startStationId) {
+    showstation = 'false';
+} else {
+    showstation = 'true';
+}
+
 fetch('https://data.cuzimmartin.dev/dynamic-trip?tripId=' + encodeURIComponent(tripId) + '&stationID=' + stationId    )  // Ersetze den Pfad durch den tatsächlichen Pfad zur Datei
     .then(response => response.json())
     .then(data => {
+
+        const stopovers = data.trip.stopovers;
+        const stopList = document.getElementById("stopovers");
+
+        stopList.innerHTML = ""; // Liste leeren, falls bereits Einträge vorhanden sind
+
+        stopovers.forEach(stopover => {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="train.html?tripId=${encodeURIComponent(tripId)}&stationId=${stationId}&startStationId=${stopover.stop.id}">${stopover.stop.name}</a>`;
+            if ((startStationId) && (startStationId === stopover.stop.id)) {
+                li.classList.add('markedStop');
+                document.getElementById('startstaionHeader').textContent = `Search from: ${stopover.stop.name}`;
+            }
+            stopList.appendChild(li);
+            
+            document.getElementById('stopoversBox').classList.remove('hidden');
+        });
+        
+        
+        
         const formatTime = (time) => {
             const hours = time.getHours().toString().padStart(2, '0');  // Stunden im lokalen Zeitformat
             const minutes = time.getMinutes().toString().padStart(2, '0');  // Minuten im lokalen Zeitformat
@@ -113,16 +147,25 @@ async function populateTable() {
             const feature = features[i];
 
             if (feature.properties?.id && feature.properties?.name) {
-                // Add rows for features with ID and Name
-                const row = document.createElement('tr');
-                row.innerHTML = `
-
-              <td colspan="2"><table class="noborder"><tr><td><img src="./assets/images/rail.svg" class="rail"></td><td><h2 class="accent">${feature.properties.name}</h2></td></tr></table></td>
-              
-              
-            `;
-                tableBody.appendChild(row);
-            } else if (i % 5 === 0 && feature.geometry?.coordinates) {
+               
+                if (showstation === 'false') {
+                    if (startStationId === feature.properties.id) {
+                        // Add rows for features with ID and Name
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td colspan="2"><table class="noborder"><tr><td><img src="./assets/images/rail.svg" class="rail"></td><td><h2 class="accent">${feature.properties.name}</h2></td></tr></table></td>`;
+                        tableBody.appendChild(row);
+                        showstation = 'true';
+                    } else {
+                        
+                    }
+                } else {
+                    // Add rows for features with ID and Name
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="2"><table class="noborder"><tr><td><img src="./assets/images/rail.svg" class="rail"></td><td><h2 class="accent">${feature.properties.name}</h2></td></tr></table></td>`;
+                    tableBody.appendChild(row);
+                }
+                
+            } else if (i % 5 === 0 && feature.geometry?.coordinates && showstation === 'true') {
 
 
                 // Fetch GeoSearch data for every 20th point

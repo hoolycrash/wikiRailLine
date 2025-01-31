@@ -5,6 +5,7 @@ body {
     font-weight: 400;
     font-style: normal;
     margin: 0px;
+    user-select: none;
 }
 
 
@@ -65,7 +66,7 @@ input:focus {
     outline: none;
 }
 
-.accent, th {
+.accent, th, summary {
     font-family: "Merriweather", serif;
 }
 
@@ -77,7 +78,7 @@ li {
     
 }
 
-li:hover {
+li:hover, .markedStop {
     background-color: #efafe1;
 }
 
@@ -133,11 +134,26 @@ a {
     overflow: hidden;
     background-color: #000;
     border-radius: 0px !important;
+    z-index: 2;
 }
+
+.blendout {
+    animation-name: blend-out;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+    z-index: 2;
+}
+
 
 @keyframes blend-in {
     from {top: 0px;}
     to {top: 50px;}
+}
+
+@keyframes blend-out {
+    0% {top: 50px; display: block;}
+    99% {top: 0px; display: block;}
+    100% {display: none;}
 }
 
 .elementtable {
@@ -204,5 +220,38 @@ a {
 .rail {
     height: 45px;
     margin-top: 5px;
+}
+
+summary {
+    background-color: #000;
+    color: #fff;
+    padding: 8px;
+      
+}
+
+details summary {
+    list-style: none; /* Entfernt den Standard-Pfeil */
+    cursor: pointer;
+    position: relative;
+    padding-right: 20px; /* Platz für das Symbol rechts */
+}
+
+details summary::after {
+    content: "+"; /* Standardmäßig ein Plus-Zeichen */
+    position: absolute;
+    right: 8px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+details[open] summary::after {
+    content: "-"; /* Wenn geöffnet, wird das Minus-Zeichen angezeigt */
+}
+
+details {
+    overflow-x: hidden;
+    border-right: 1px solid #000;
+    margin-top: 2px;
+    z-index: 0;
 }
 
